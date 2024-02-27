@@ -20,9 +20,9 @@ import java.util.List;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
-    HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-    HttpStatus conflict = HttpStatus.CONFLICT;
-    HttpStatus notFound = HttpStatus.NOT_FOUND;
+    private final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+    private final HttpStatus conflict = HttpStatus.CONFLICT;
+    private final HttpStatus notFound = HttpStatus.NOT_FOUND;
 
     @ExceptionHandler(value = {
             AlreadyExistsException.class,
@@ -34,7 +34,6 @@ public class ApiExceptionHandler {
         if (e instanceof AlreadyExistsException) status = conflict;
         else if (e instanceof DoesNotExistException) status = notFound;
         else status = badRequest;
-
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 status,

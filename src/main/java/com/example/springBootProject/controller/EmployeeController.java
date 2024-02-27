@@ -2,7 +2,7 @@ package com.example.springBootProject.controller;
 
 import com.example.springBootProject.dto.EmployeeDTO;
 import com.example.springBootProject.dto.UpdateEmployeeDTO;
-import com.example.springBootProject.model.service.EmployeeService;
+import com.example.springBootProject.service.EmployeeService;
 import com.example.springBootProject.dto.NewEmployeeDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +39,10 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createNewEmployee(@Valid @RequestBody NewEmployeeDTO employee,
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmployeeDTO createNewEmployee(@Valid @RequestBody NewEmployeeDTO employee,
                                             @RequestHeader(value = "Accept-Language", required = false)Locale locale) {
-        employeeService.addNewEmployee(employee, locale);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return employeeService.addNewEmployee(employee, locale);
     }
 
     @DeleteMapping(path = "{employeeId}")

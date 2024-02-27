@@ -1,4 +1,4 @@
-package com.example.springBootProject.model.service;
+package com.example.springBootProject.service;
 
 import com.example.springBootProject.dto.JobDTO;
 import com.example.springBootProject.dto.NewJobDTO;
@@ -55,7 +55,7 @@ public class JobService {
                 ));
     }
 
-    public void addNewJob(NewJobDTO job, Locale locale) {
+    public JobDTO addNewJob(NewJobDTO job, Locale locale) {
         Optional<Job> jobByName = jobRepository.findJobByName(job.name());
         if (jobByName.isPresent()) {
             throw new AlreadyExistsException(
@@ -66,7 +66,7 @@ public class JobService {
                     )
             );
         }
-        jobRepository.save(JobMapper.INSTANCE.newJobDTOToJob(job));
+        return JobMapper.INSTANCE.jobToJobDTO(jobRepository.save(JobMapper.INSTANCE.newJobDTOToJob(job)));
     }
 
     public void deleteJob(Long id, Locale locale) {

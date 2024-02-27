@@ -3,7 +3,7 @@ package com.example.springBootProject.controller;
 import com.example.springBootProject.dto.NewJobDTO;
 import com.example.springBootProject.dto.UpdateJobDTO;
 import com.example.springBootProject.dto.JobDTO;
-import com.example.springBootProject.model.service.JobService;
+import com.example.springBootProject.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,10 +40,10 @@ public class JobController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createNewJob(@Valid @RequestBody NewJobDTO job,
+    @ResponseStatus(HttpStatus.CREATED)
+    public JobDTO createNewJob(@Valid @RequestBody NewJobDTO job,
                                        @RequestHeader(value = "Accept-Language", required = false)Locale locale) {
-        jobService.addNewJob(job, locale);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return jobService.addNewJob(job, locale);
     }
 
     @DeleteMapping(path = "{jobId}")

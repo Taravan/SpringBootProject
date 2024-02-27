@@ -1,4 +1,4 @@
-package com.example.springBootProject.model.service;
+package com.example.springBootProject.service;
 
 import com.example.springBootProject.dto.EmployeeDTO;
 import com.example.springBootProject.dto.NewEmployeeDTO;
@@ -56,7 +56,7 @@ public class EmployeeService {
                 ));
     }
 
-    public void addNewEmployee(NewEmployeeDTO employee, Locale locale) {
+    public EmployeeDTO addNewEmployee(NewEmployeeDTO employee, Locale locale) {
         Optional<Employee> employeeByTelNum = employeeRepository
                 .findEmployeeByTelNum(employee.telNum());
         if (employeeByTelNum.isPresent()) {
@@ -75,7 +75,8 @@ public class EmployeeService {
             );
         }
 
-        employeeRepository.save(EmployeeMapper.INSTANCE.newEmployeeDTOToEmployee(employee));
+        return EmployeeMapper.INSTANCE.employeeToEmployeeDTO(
+                employeeRepository.save(EmployeeMapper.INSTANCE.newEmployeeDTOToEmployee(employee)));
 
     }
 
